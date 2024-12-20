@@ -5,7 +5,7 @@ import InputImage from "../../components/Input/InputImage";
 import useAuth from "../../Hooks/useAuth";
 import { useCreateUserMutation } from "../../redux/feature/user/userApi";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const Navigate = useNavigate();
@@ -183,6 +183,14 @@ const SignUp = () => {
               </button>
             </div>
           </form>
+          <div className="my-4 text-center text-info">
+            <p>
+              Already Have an account?{" "}
+              <Link to={"/login"}>
+                <span className="text-red-600 underline">Log In</span>
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
