@@ -1,9 +1,17 @@
+import { Link } from "react-router-dom";
+
 const NavBar = () => {
+    const nabList = [
+      { label: "Home", href: "/" },
+      { label: "Products", href: "/about" },
+      { label: "About", href: "/about" },
+      { label: "Contact", href: "/contact" },
+    ];
   return (
-    <div className="navbar bg-base-100">
-      <div className="navbar-start">
+    <div className="navbar bg-primary text-white max-w-[90%] mx-auto">
+      <div className="navbar-start ">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -21,54 +29,28 @@ const NavBar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-primary text-white rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
+            {nabList.map((item, i) => (
+              <li key={i}>
+                <Link to={item.href}>{item.label}</Link>
+              </li>
+            ))}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <a className="btn btn-ghost text-xl">TechOrbit</a>
       </div>
-      <div className="navbar-center hidden lg:flex">
+      <div className="navbar-center hidden lg:flex ">
         <ul className="menu menu-horizontal px-1">
-          <li>
-            <a>Item 1</a>
-          </li>
-          <li>
-            <details>
-              <summary>Parent</summary>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </details>
-          </li>
-          <li>
-            <a>Item 3</a>
-          </li>
+          {nabList.map((item, i) => (
+            <li key={i}>
+              <Link to={item.href}>{item.label}</Link>
+            </li>
+          ))}
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn btn-secondary">Button</a>
+        <a className="btn-main">New Here?</a>
       </div>
     </div>
   );

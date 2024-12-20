@@ -4,10 +4,12 @@ import NavBar from "../../components/NavBar/NavBar";
 const Main = () => {
   return (
     <div>
-      <NavBar/>
-      <Outlet/>
+      <div className="bg-primary">
+        <NavBar />
+      </div>
+      <Outlet />
     </div>
-  )
+  );
 };
 
 export default Main
