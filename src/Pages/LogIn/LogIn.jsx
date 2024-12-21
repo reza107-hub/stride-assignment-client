@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Input/Input";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import GoogleSignIn from "../../components/googleSignIn/GoogleSignIn";
 
 const LogIn = () => {
   const Navigate = useNavigate();
@@ -14,34 +15,34 @@ const LogIn = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-  try {
-    const response = await signIn(data.email, data.password);
-    if (response._tokenResponse.registered) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Log in Successful",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      Navigate("/");
-    }
-  } catch (error) {
-    console.error("Login Error:", error);
-    const errorMessage =
-      error.code === "auth/user-not-found"
-        ? "User not found. Please check your email."
-        : error.code === "auth/wrong-password"
-        ? "Incorrect password. Please try again."
-        : error.message || "An unexpected error occurred.";
+    try {
+      const response = await signIn(data.email, data.password);
+      if (response._tokenResponse.registered) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Log in Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        Navigate("/");
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      const errorMessage =
+        error.code === "auth/user-not-found"
+          ? "User not found. Please check your email."
+          : error.code === "auth/wrong-password"
+          ? "Incorrect password. Please try again."
+          : error.message || "An unexpected error occurred.";
 
-    Swal.fire({
-      icon: "error",
-      title: "Login Failed",
-      text: errorMessage,
-    });
-  }
-};
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: errorMessage,
+      });
+    }
+  };
 
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -98,6 +99,11 @@ const LogIn = () => {
               </button>
             </div>
           </form>
+          {/* google sign in */}
+
+          <GoogleSignIn />
+
+          {/* ------------ */}
           <div className="my-4 text-center text-info">
             <p>
               New Here?{" "}

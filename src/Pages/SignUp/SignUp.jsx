@@ -6,6 +6,7 @@ import useAuth from "../../Hooks/useAuth";
 import { useCreateUserMutation } from "../../redux/feature/user/userApi";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
+import GoogleSignIn from "../../components/googleSignIn/GoogleSignIn";
 
 const SignUp = () => {
   const Navigate = useNavigate();
@@ -183,6 +184,11 @@ const SignUp = () => {
               </button>
             </div>
           </form>
+          {/* google sign in */}
+
+          <GoogleSignIn />
+
+          {/* ------------ */}
           <div className="my-4 text-center text-info">
             <p>
               Already Have an account?{" "}
