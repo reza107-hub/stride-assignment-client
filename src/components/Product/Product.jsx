@@ -1,7 +1,19 @@
+import { Link } from "react-router-dom";
+
 const Product = ({ product }) => {
     const truncateText = (text, maxLength) => {
       if (text.length > maxLength) {
-        return text.substring(0, maxLength) + "...";
+        return (
+          <>
+            {text.substring(0, maxLength)}...
+            <Link
+              to={`/product-details/${product._id}`}
+              className="text-blue-500"
+            >
+              See More
+            </Link>
+          </>
+        );
       }
       return text;
     };
@@ -21,11 +33,11 @@ const Product = ({ product }) => {
             <span>$</span> {product && product.price}
           </div>
         </h2>
-        <p>{product && truncateText(product.details, 40)}</p>
+        <p>{product && truncateText(product.details, 30)}</p>
         <div className="card-actions justify-between">
           <div className="badge badge-outline">{product && product.brand}</div>
           <div className="badge badge-outline">
-            <span className="text-info">In Stock</span>{" "}
+            <span className="text-info">In Stock</span> &nbsp;
             <span className="text-accent">{product && product.stock}</span>
           </div>
         </div>

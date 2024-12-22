@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import useGetSingleUser from "../../Hooks/useGetSingleUser";
 
@@ -7,7 +7,7 @@ const NavBar = () => {
   const [singleUserData] = useGetSingleUser();
   const nabList = [
     { label: "Home", href: "/" },
-    { label: "Products", href: "/about" },
+    { label: "Products", href: "/products" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
   ];
@@ -48,7 +48,14 @@ const NavBar = () => {
         <ul className="menu menu-horizontal px-1">
           {nabList.map((item, i) => (
             <li key={i}>
-              <Link to={item.href}>{item.label}</Link>
+              <NavLink
+                className={({ isActive, isPending }) =>
+                  isPending ? "pending" : isActive ? "btn-main" : ""
+                }
+                to={item.href}
+              >
+                {item.label}
+              </NavLink>
             </li>
           ))}
         </ul>

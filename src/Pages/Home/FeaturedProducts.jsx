@@ -1,15 +1,13 @@
-import { useState } from "react";
 import Product from "../../components/Product/Product";
 import { useGetAllProductsQuery } from "../../redux/feature/products/productApi";
+import { Link } from "react-router-dom";
 
 const FeaturedProducts = () => {
-  const { data: products, error, isLoading } = useGetAllProductsQuery();
-  const [showAll, setShowAll] = useState(false);
+  const { data: products, error, isLoading } = useGetAllProductsQuery(null);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const displayedProducts = showAll ? products : products?.slice(0, 4);
 
   return (
     <div className="py-12 bg-gray-100">
@@ -23,15 +21,18 @@ const FeaturedProducts = () => {
           </h4>
         </div>
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {displayedProducts?.map((product) => (
+          {products?.products?.slice(0, 4).map((product) => (
             <Product key={product._id} product={product} />
           ))}
         </div>
-        {products?.length > 4 && (
+        {products?.products?.length > 4 && (
           <div className="text-center mt-6">
-            <button className="btn-main" onClick={() => setShowAll(!showAll)}>
-              {showAll ? "Show Less" : "See More"}
-            </button>
+            <Link
+              to={"/products"}
+              className="btn-main"
+            >
+              See More
+            </Link>
           </div>
         )}
       </div>
