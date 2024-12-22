@@ -7,7 +7,7 @@ const Hero = () => {
         <img
           src={heroImg}
           alt="Hero"
-          className="w-[60%] rounded-lg shadow-2xl"
+          className=" md:w-[50%] rounded-lg shadow-2xl"
         />
         <div>
           <h1 className="text-5xl font-bold text-white">
