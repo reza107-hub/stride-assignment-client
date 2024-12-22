@@ -16,6 +16,14 @@ const LogIn = () => {
 
   const onSubmit = async (data) => {
     try {
+      Swal.fire({
+        title: "wait...",
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       const response = await signIn(data.email, data.password);
       if (response._tokenResponse.registered) {
         Swal.fire({

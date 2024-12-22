@@ -32,12 +32,20 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     try {
+      Swal.fire({
+        title: "wait...",
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       const image = await GetHostUrl(data.image[0]);
       data.image = image;
       const resFromFirebase = await createUser(data.email, data.password);
       if (resFromFirebase) {
         const res = await createUserIntoDb(data).unwrap();
-        if (res.acknowledge === true) {
+        if (res.acknowledged === true) {
           Swal.fire({
             position: "center",
             icon: "success",
@@ -55,6 +63,7 @@ const SignUp = () => {
         }
       }
     } catch (error) {
+      console.log({ error });
       console.error("Error uploading image:", error);
       // Handle Firebase errors
       if (error.code && error.message) {
