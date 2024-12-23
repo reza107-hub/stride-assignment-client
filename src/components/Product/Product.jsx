@@ -1,22 +1,88 @@
 import { Link } from "react-router-dom";
+import useGetSingleUser from "../../Hooks/useGetSingleUser";
+import {
+  useAddToCartMutation,
+  useAddToWishListMutation,
+} from "../../redux/feature/user/userApi";
+import Swal from "sweetalert2";
 
 const Product = ({ product }) => {
-    const truncateText = (text, maxLength) => {
-      if (text.length > maxLength) {
-        return (
-          <>
-            {text.substring(0, maxLength)}...
-            <Link
-              to={`/product-details/${product._id}`}
-              className="text-blue-500"
-            >
-              See More
-            </Link>
-          </>
-        );
-      }
-      return text;
-    };
+  const [addToWishList] = useAddToWishListMutation();
+  const [addToCart] = useAddToCartMutation();
+  const [singleUserData, isSingleUserDataLoading] = useGetSingleUser();
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return (
+        <>
+          {text.substring(0, maxLength)}...
+          <Link
+            to={`/product-details/${product._id}`}
+            className="text-blue-500"
+          >
+            See More
+          </Link>
+        </>
+      );
+    }
+    return text;
+  };
+  // add to wishlist
+
+  const handleAddToWishList = async (productId) => {
+    Swal.fire({
+      title: "wait...",
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    const res = await addToWishList({ productId }).unwrap();
+    if (res.modifiedCount === 1) {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Product added on wishlist",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "MongoDB Error",
+        text: res.message || "Failed to save wishlist in the database.",
+      });
+    }
+  };
+
+  // add to cart
+  const handleAddToCart = async (productId) => {
+    Swal.fire({
+      title: "wait...",
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    const res = await addToCart({ productId }).unwrap();
+    if (res.modifiedCount === 1) {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Product added on wishlist",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "MongoDB Error",
+        text: res.message || "Failed to save wishlist in the database.",
+      });
+    }
+  };
+
   return (
     <div className="card bg-base-100 shadow-xl">
       <figure>
@@ -42,10 +108,42 @@ const Product = ({ product }) => {
           </div>
         </div>
         <div className="card-actions justify-between mt-4">
-          <button className="btn btn-neutral hover:btn-info btn-sm">
+          <button
+            onClick={() => handleAddToWishList(product._id)}
+            disabled={
+              (!isSingleUserDataLoading &&
+                singleUserData &&
+                singleUserData?.role !== "buyer") ||
+              singleUserData?.wishlist?.includes(product._id)
+            }
+            className={`btn btn-neutral hover:btn-info btn-sm ${
+              (!isSingleUserDataLoading &&
+                singleUserData &&
+                singleUserData?.role !== "buyer") ||
+              singleUserData?.wishlist?.includes(product._id)
+                ? "cursor-not-allowed opacity-40"
+                : ""
+            }`}
+          >
             wishlist
           </button>
-          <button className="btn btn-info hover:btn-neutral btn-sm">
+          <button
+            onClick={() => handleAddToCart(product._id)}
+            disabled={
+              (!isSingleUserDataLoading &&
+                singleUserData &&
+                singleUserData?.role !== "buyer") ||
+              singleUserData?.cart?.includes(product._id)
+            }
+            className={`btn btn-neutral hover:btn-info btn-sm ${
+              (!isSingleUserDataLoading &&
+                singleUserData &&
+                singleUserData?.role !== "buyer") ||
+              singleUserData?.cart?.includes(product._id)
+                ? "cursor-not-allowed opacity-40"
+                : ""
+            }`}
+          >
             Add to cart
           </button>
         </div>

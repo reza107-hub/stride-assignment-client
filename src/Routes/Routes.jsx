@@ -5,6 +5,10 @@ import SignUp from "../Pages/SignUp/SignUp";
 import LogIn from "../Pages/LogIn/LogIn";
 import Products from "../Pages/Products/Products";
 import ProductDetails from "../Pages/ProductDetails/ProductDetails";
+import About from "../Pages/About/About";
+import Contact from "../Pages/Contact/Contact";
+import DashBoard from "../Layout/Dashboard/DashBoard";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +16,8 @@ export const router = createBrowserRouter([
     element: <Main />,
     children: [
       { path: "/", element: <Home /> },
+      { path: "/about", element: <About /> },
+      { path: "/contact", element: <Contact /> },
       { path: "/products", element: <Products /> },
       { path: "/product-details/:productId", element: <ProductDetails /> },
     ],
@@ -23,5 +29,13 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     element: <LogIn />,
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashBoard />
+      </PrivateRoute>
+    ),
   },
 ]);

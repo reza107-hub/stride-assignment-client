@@ -17,7 +17,23 @@ const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ['user'],
         }),
+        addToWishList: build.mutation({
+            query: (body) => ({
+                url: '/add-to-wishlist',
+                method: 'PATCH',
+                body,
+            }),
+            invalidatesTags: ['user'],
+        }),
+        addToCart: build.mutation({
+            query: (body) => ({
+                url: '/add-cart',
+                method: 'PATCH',
+                body,
+            }),
+            invalidatesTags: ['user'],
+        })
     })
 })
 
-export const { useCreateUserMutation, useGetSingleUserQuery } = userApi
+export const { useCreateUserMutation, useGetSingleUserQuery, useAddToWishListMutation, useAddToCartMutation } = userApi
