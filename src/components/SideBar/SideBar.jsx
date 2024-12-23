@@ -115,7 +115,7 @@ const SideBar = () => {
           <>
             <li>
               <NavLink
-                to="/add-product"
+                to="/dashboard/add-new-product"
                 className={({ isActive, isPending }) =>
                   isPending
                     ? "pending"
@@ -129,7 +129,7 @@ const SideBar = () => {
             </li>
             <li>
               <NavLink
-                to="/view-products"
+                to="/dashboard/view-products"
                 className={({ isActive, isPending }) =>
                   isPending
                     ? "pending"

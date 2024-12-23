@@ -13,6 +13,9 @@ import Profile from "../Pages/Profile/Profile";
 import BuyerRoutes from "./BuyerRoutes";
 import WishList from "../Pages/WishList/WishList";
 import CartList from "../Pages/CartList/CartList";
+import SellerRoutes from "./SellerRoutes";
+import AddNewProduct from "../Pages/AddNewProduct/AddNewProduct";
+import ViewProduct from "../Pages/ViewProduct/ViewProduct";
 
 export const router = createBrowserRouter([
   {
@@ -67,6 +70,26 @@ export const router = createBrowserRouter([
             <BuyerRoutes>
               <CartList />
             </BuyerRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/add-new-product",
+        element: (
+          <PrivateRoute>
+            <SellerRoutes>
+              <AddNewProduct />
+            </SellerRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/view-products",
+        element: (
+          <PrivateRoute>
+            <SellerRoutes>
+              <ViewProduct />
+            </SellerRoutes>
           </PrivateRoute>
         ),
       },

@@ -113,11 +113,11 @@ const ProductDetails = () => {
           </div>
           <p className="text-gray-700">{product.details}</p>
 
-          {/* Ratings Section */}
+          {/* Ratings Section
           <div className="pt-4 border-t">
             <h2 className="text-lg font-semibold text-gray-800">Ratings</h2>
             <p className="text-gray-600">Rating: {product?.ratings} / 5</p>
-          </div>
+          </div> */}
 
           {/* Action Buttons */}
           <div className="flex space-x-4 pt-4">

@@ -17,6 +17,7 @@ const Products = () => {
   if (sortQuery) query.sort = sortQuery;
   if (catQuery) query.category = catQuery;
   if (brandQuery) query.brand = brandQuery;
+  if (page) query.page = page;
 
   const { data: products, isLoading } = useGetAllProductsQuery(query);
 
