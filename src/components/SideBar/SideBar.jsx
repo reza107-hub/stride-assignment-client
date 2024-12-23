@@ -69,7 +69,7 @@ const SideBar = () => {
           <>
             <li>
               <NavLink
-                to="/view-all-users"
+                to="/dashboard/view-all-users"
                 className={({ isActive, isPending }) =>
                   isPending
                     ? "pending"
@@ -81,9 +81,9 @@ const SideBar = () => {
                 View All Users
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
-                to="/banned-users"
+                to="/dashboard/banned-users"
                 className={({ isActive, isPending }) =>
                   isPending
                     ? "pending"
@@ -94,10 +94,10 @@ const SideBar = () => {
               >
                 Banned Users
               </NavLink>
-            </li>
-            <li>
+            </li> */}
+            {/* <li>
               <NavLink
-                to="/seller-list"
+                to="/dashboard/seller-list"
                 className={({ isActive, isPending }) =>
                   isPending
                     ? "pending"
@@ -108,7 +108,7 @@ const SideBar = () => {
               >
                 Seller List
               </NavLink>
-            </li>
+            </li> */}
           </>
         )}
         {singleUserData?.role === "seller" && (

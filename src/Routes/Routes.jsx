@@ -16,6 +16,10 @@ import CartList from "../Pages/CartList/CartList";
 import SellerRoutes from "./SellerRoutes";
 import AddNewProduct from "../Pages/AddNewProduct/AddNewProduct";
 import ViewProduct from "../Pages/ViewProduct/ViewProduct";
+import ViewAllUser from "../Pages/ViewAllUser/ViewAllUser";
+import BannedUser from "../Pages/BannedUser/BannedUser";
+import SellerList from "../Pages/SellerList/SellerList";
+import AdminRoutes from "./AdminRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -90,6 +94,36 @@ export const router = createBrowserRouter([
             <SellerRoutes>
               <ViewProduct />
             </SellerRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/view-all-users",
+        element: (
+          <PrivateRoute>
+            <AdminRoutes>
+              <ViewAllUser />
+            </AdminRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/banned-users",
+        element: (
+          <PrivateRoute>
+            <AdminRoutes>
+              <BannedUser />
+            </AdminRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/seller-list",
+        element: (
+          <PrivateRoute>
+            <AdminRoutes>
+              <SellerList />
+            </AdminRoutes>
           </PrivateRoute>
         ),
       },

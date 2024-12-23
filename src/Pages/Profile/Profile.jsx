@@ -14,7 +14,7 @@ const Profile = () => {
         <figure className="lg:w-1/3">
           <img
             className="lg:h-96 h-36 w-full object-cover"
-            src={singleUserData.image}
+            src={singleUserData?.image}
             alt={singleUserData.name}
           />
         </figure>

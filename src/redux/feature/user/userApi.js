@@ -63,8 +63,30 @@ const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ['user'],
         }),
+        getAllUsers: build.query({
+            query: () => ({
+                url: '/all-users',
+                method: 'GET',
+            }),
+            providesTags: ['user']
+        }),
+        changeUserRole: build.mutation({
+            query: ({ id, role }) => ({
+                url: `/change-role/${id}`,
+                method: 'PATCH',
+                body: { role },
+            }),
+            invalidatesTags: ['user'],
+        }),
+        banUser: build.mutation({
+            query: (id) => ({
+                url: `/ban-user/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['user'],
+        }),
     })
 })
 
 export const { useCreateUserMutation, useGetSingleUserQuery, useAddToWishListMutation, useAddToCartMutation, useGetWishlistQuery, useRemoveFromWishListMutation, useGetCartQuery,
-    useRemoveFromCartMutation } = userApi
+    useRemoveFromCartMutation, useGetAllUsersQuery, useChangeUserRoleMutation, useBanUserMutation } = userApi
