@@ -7,7 +7,10 @@ const AdminRoutes = ({ children }) => {
   if (isSingleUserDataLoading) {
     return <Loading />;
   }
-  if (singleUserData.status === "unbanned" && singleUserData.role === "admin") {
+  if (
+    singleUserData.userStatus === "unbanned" &&
+    singleUserData.role === "admin"
+  ) {
     return children;
   }
   return <Navigate to="/login" state={{ from: location }} replace></Navigate>;

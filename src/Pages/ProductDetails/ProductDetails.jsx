@@ -2,9 +2,16 @@ import { useParams } from "react-router-dom";
 import { useGetSingleProductQuery } from "../../redux/feature/products/productApi";
 import Loading from "../../components/Loading/Loading";
 import useGetSingleUser from "../../Hooks/useGetSingleUser";
+import {
+  useAddToCartMutation,
+  useAddToWishListMutation,
+} from "../../redux/feature/user/userApi";
+import Swal from "sweetalert2";
 
 const ProductDetails = () => {
-    const [singleUserData, isSingleUserDataLoading] = useGetSingleUser();
+  const [addToWishList] = useAddToWishListMutation();
+  const [addToCart] = useAddToCartMutation();
+  const [singleUserData, isSingleUserDataLoading] = useGetSingleUser();
   const { productId } = useParams();
   const {
     data: product,
@@ -15,6 +22,63 @@ const ProductDetails = () => {
   if (isLoading) return <Loading />;
   if (error)
     return <p className="text-center text-red-500">Error: {error.message}</p>;
+
+  // add to wishlist
+
+  const handleAddToWishList = async (productId) => {
+    Swal.fire({
+      title: "wait...",
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    const res = await addToWishList({ productId }).unwrap();
+    if (res.modifiedCount === 1) {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Product added on wishlist",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "MongoDB Error",
+        text: res.message || "Failed to save wishlist in the database.",
+      });
+    }
+  };
+
+  // add to cart
+  const handleAddToCart = async (productId) => {
+    Swal.fire({
+      title: "wait...",
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    const res = await addToCart({ productId }).unwrap();
+    if (res.modifiedCount === 1) {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Product added on wishlist",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "MongoDB Error",
+        text: res.message || "Failed to save wishlist in the database.",
+      });
+    }
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -58,15 +122,18 @@ const ProductDetails = () => {
           {/* Action Buttons */}
           <div className="flex space-x-4 pt-4">
             <button
+              onClick={() => handleAddToCart(product._id)}
               disabled={
-                !isSingleUserDataLoading &&
-                singleUserData &&
-                singleUserData.role !== "buyer"
+                (!isSingleUserDataLoading &&
+                  singleUserData &&
+                  singleUserData?.role !== "buyer") ||
+                singleUserData?.cart?.includes(product._id)
               }
               className={`bg-primary text-white py-2 px-4 rounded-lg hover:bg-neutral hover:text-black ${
-                !isSingleUserDataLoading &&
-                singleUserData &&
-                singleUserData.role !== "buyer"
+                (!isSingleUserDataLoading &&
+                  singleUserData &&
+                  singleUserData?.role !== "buyer") ||
+                singleUserData?.cart?.includes(product._id)
                   ? "cursor-not-allowed opacity-40 btn-disabled"
                   : ""
               }`}
@@ -74,15 +141,18 @@ const ProductDetails = () => {
               Add to Cart
             </button>
             <button
+              onClick={() => handleAddToWishList(product._id)}
               disabled={
-                !isSingleUserDataLoading &&
-                singleUserData &&
-                singleUserData.role !== "buyer"
+                (!isSingleUserDataLoading &&
+                  singleUserData &&
+                  singleUserData?.role !== "buyer") ||
+                singleUserData?.wishlist?.includes(product._id)
               }
               className={`bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 ${
-                !isSingleUserDataLoading &&
-                singleUserData &&
-                singleUserData.role !== "buyer"
+                (!isSingleUserDataLoading &&
+                  singleUserData &&
+                  singleUserData?.role !== "buyer") ||
+                singleUserData?.wishlist?.includes(product._id)
                   ? "cursor-not-allowed opacity-40 btn-disabled"
                   : ""
               }`}

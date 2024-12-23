@@ -7,10 +7,13 @@ const BuyerRoutes = ({ children }) => {
   if (isSingleUserDataLoading) {
     return <Loading />;
   }
-  if (singleUserData.status === "unbanned" && singleUserData.role === "buyer") {
+  if (
+    singleUserData?.userStatus === "unbanned" &&
+    singleUserData?.role === "buyer"
+  ) {
     return children;
   }
-  return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
+  return <Navigate to="/" replace></Navigate>;
 };
 
 export default BuyerRoutes;

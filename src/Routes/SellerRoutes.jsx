@@ -8,7 +8,7 @@ const SellerRoutes = ({ children }) => {
     return <Loading />;
   }
   if (
-    singleUserData.status === "unbanned" &&
+    singleUserData.userStatus === "unbanned" &&
     singleUserData.role === "seller"
   ) {
     return children;

@@ -1,15 +1,41 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useGetSingleUser from "../../Hooks/useGetSingleUser";
 import {
   useAddToCartMutation,
   useAddToWishListMutation,
+  useRemoveFromCartMutation,
+  useRemoveFromWishListMutation,
 } from "../../redux/feature/user/userApi";
 import Swal from "sweetalert2";
 
 const Product = ({ product }) => {
+  const [removeFromWishList] = useRemoveFromWishListMutation();
   const [addToWishList] = useAddToWishListMutation();
   const [addToCart] = useAddToCartMutation();
+  const [removeFromCart] = useRemoveFromCartMutation();
   const [singleUserData, isSingleUserDataLoading] = useGetSingleUser();
+  const location = useLocation();
+  const handleRemoveFromWishList = async (productId) => {
+    try {
+      const res = await removeFromWishList({ productId }).unwrap();
+      if (res.modifiedCount === 1) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Product removed from wishlist",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to remove product from wishlist.",
+      });
+      console.error("Failed to remove from wishlist:", error);
+    }
+  };
   const truncateText = (text, maxLength) => {
     if (text.length > maxLength) {
       return (
@@ -83,6 +109,28 @@ const Product = ({ product }) => {
     }
   };
 
+  const handleRemoveFromCart = async (productId) => {
+    try {
+      const res = await removeFromCart({ productId }).unwrap();
+      if (res.modifiedCount === 1) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Product removed from cart",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to remove product from cart.",
+      });
+      console.error("Failed to remove from cart:", error);
+    }
+  };
+
   return (
     <div className="card bg-base-100 shadow-xl">
       <figure>
@@ -108,44 +156,79 @@ const Product = ({ product }) => {
           </div>
         </div>
         <div className="card-actions justify-between mt-4">
-          <button
-            onClick={() => handleAddToWishList(product._id)}
-            disabled={
-              (!isSingleUserDataLoading &&
-                singleUserData &&
-                singleUserData?.role !== "buyer") ||
-              singleUserData?.wishlist?.includes(product._id)
-            }
-            className={`btn btn-neutral hover:btn-info btn-sm ${
-              (!isSingleUserDataLoading &&
-                singleUserData &&
-                singleUserData?.role !== "buyer") ||
-              singleUserData?.wishlist?.includes(product._id)
-                ? "cursor-not-allowed opacity-40"
-                : ""
-            }`}
-          >
-            wishlist
-          </button>
-          <button
-            onClick={() => handleAddToCart(product._id)}
-            disabled={
-              (!isSingleUserDataLoading &&
-                singleUserData &&
-                singleUserData?.role !== "buyer") ||
-              singleUserData?.cart?.includes(product._id)
-            }
-            className={`btn btn-neutral hover:btn-info btn-sm ${
-              (!isSingleUserDataLoading &&
-                singleUserData &&
-                singleUserData?.role !== "buyer") ||
-              singleUserData?.cart?.includes(product._id)
-                ? "cursor-not-allowed opacity-40"
-                : ""
-            }`}
-          >
-            Add to cart
-          </button>
+          {location.pathname === "/dashboard/cart-list" ? (
+            <></>
+          ) : (
+            <>
+              {singleUserData?.wishlist?.includes(product._id) ? (
+                <>
+                  <button
+                    onClick={() => handleRemoveFromWishList(product._id)}
+                    className="btn btn-danger btn-sm"
+                  >
+                    Remove from Wishlist
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => handleAddToWishList(product._id)}
+                    disabled={
+                      !isSingleUserDataLoading &&
+                      singleUserData &&
+                      singleUserData?.role !== "buyer"
+                    }
+                    className={`btn btn-neutral hover:btn-info btn-sm ${
+                      !isSingleUserDataLoading &&
+                      singleUserData &&
+                      singleUserData?.role !== "buyer"
+                        ? "cursor-not-allowed opacity-40"
+                        : ""
+                    }`}
+                  >
+                    wishlist
+                  </button>
+                </>
+              )}
+            </>
+          )}
+
+          {location.pathname === "/dashboard/wishlist" ? (
+            <></>
+          ) : (
+            <>
+              {singleUserData?.cart?.includes(product._id) ? (
+                <>
+                  <button
+                    onClick={() => handleRemoveFromCart(product._id)}
+                    className="btn btn-danger btn-sm"
+                  >
+                    Remove from Cart
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => handleAddToCart(product._id)}
+                    disabled={
+                      !isSingleUserDataLoading &&
+                      singleUserData &&
+                      singleUserData?.role !== "buyer"
+                    }
+                    className={`btn btn-neutral hover:btn-info btn-sm ${
+                      !isSingleUserDataLoading &&
+                      singleUserData &&
+                      singleUserData?.role !== "buyer"
+                        ? "cursor-not-allowed opacity-40"
+                        : ""
+                    }`}
+                  >
+                    Add to cart
+                  </button>
+                </>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

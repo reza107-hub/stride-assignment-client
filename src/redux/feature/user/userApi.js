@@ -32,8 +32,39 @@ const userApi = baseApi.injectEndpoints({
                 body,
             }),
             invalidatesTags: ['user'],
-        })
+        }),
+        getWishlist: build.query({
+            query: () => ({
+                url: '/get-wishlist',
+                method: 'GET',
+            }),
+            providesTags: ['user'],
+        }),
+        removeFromWishList: build.mutation({
+            query: (body) => ({
+                url: '/remove-from-wishlist',
+                method: 'PATCH',
+                body,
+            }),
+            invalidatesTags: ['user'],
+        }),
+        getCart: build.query({
+            query: () => ({
+                url: '/get-cart',
+                method: 'GET',
+            }),
+            providesTags: ['user'],
+        }),
+        removeFromCart: build.mutation({
+            query: (body) => ({
+                url: '/remove-from-cart',
+                method: 'PATCH',
+                body,
+            }),
+            invalidatesTags: ['user'],
+        }),
     })
 })
 
-export const { useCreateUserMutation, useGetSingleUserQuery, useAddToWishListMutation, useAddToCartMutation } = userApi
+export const { useCreateUserMutation, useGetSingleUserQuery, useAddToWishListMutation, useAddToCartMutation, useGetWishlistQuery, useRemoveFromWishListMutation, useGetCartQuery,
+    useRemoveFromCartMutation } = userApi

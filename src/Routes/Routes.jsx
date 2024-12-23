@@ -9,6 +9,10 @@ import About from "../Pages/About/About";
 import Contact from "../Pages/Contact/Contact";
 import DashBoard from "../Layout/Dashboard/DashBoard";
 import PrivateRoute from "./PrivateRoute";
+import Profile from "../Pages/Profile/Profile";
+import BuyerRoutes from "./BuyerRoutes";
+import WishList from "../Pages/WishList/WishList";
+import CartList from "../Pages/CartList/CartList";
 
 export const router = createBrowserRouter([
   {
@@ -37,5 +41,35 @@ export const router = createBrowserRouter([
         <DashBoard />
       </PrivateRoute>
     ),
+    children: [
+      {
+        path: "/dashboard",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/wishlist",
+        element: (
+          <PrivateRoute>
+            <BuyerRoutes>
+              <WishList />
+            </BuyerRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/cart-list",
+        element: (
+          <PrivateRoute>
+            <BuyerRoutes>
+              <CartList />
+            </BuyerRoutes>
+          </PrivateRoute>
+        ),
+      },
+    ],
   },
 ]);
