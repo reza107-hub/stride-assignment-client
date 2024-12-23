@@ -2,10 +2,10 @@ import { useGetSingleUserQuery } from "../redux/feature/user/userApi";
 import useAuth from "./useAuth";
 
 const useGetSingleUser = () => {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const { data: singleUserData, isLoading: isSingleUserDataLoading } =
     useGetSingleUserQuery(user?.email, {
-      skip: loading,
+      skip: !user,
     });
   return [singleUserData, isSingleUserDataLoading];
 };

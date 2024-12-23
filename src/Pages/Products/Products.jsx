@@ -77,7 +77,7 @@ const Products = () => {
               Filter By category
             </option>
             {!isLoading &&
-              products.categories.map((cat) => (
+              products?.categories?.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>
@@ -95,7 +95,7 @@ const Products = () => {
               Filter By brand
             </option>
             {!isLoading &&
-              products.brands.map((b) => (
+              products?.brands?.map((b) => (
                 <option key={b} value={b}>
                   {b}
                 </option>
@@ -139,11 +139,11 @@ const Products = () => {
             <Loading></Loading>
           ) : (
             <>
-              {products.products.length === 0 ? (
+              {products?.products?.length === 0 ? (
                 <p>No Products found</p>
               ) : (
                 <>
-                  {products.products.map((product) => (
+                  {products?.products?.map((product) => (
                     <Product key={product._id} product={product} />
                   ))}
                 </>
